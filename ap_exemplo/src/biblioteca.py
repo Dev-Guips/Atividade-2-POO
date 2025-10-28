@@ -170,7 +170,7 @@ if __name__ == "__main__":
     #ADICIONAR FILMES
     for film in [filme1, filme2, filme3, filme4]:
         try:
-            locadora.adicionar_filme(filme)
+            locadora.adicionar_filme(film)
         except LocadoraError as e:
             print(f"Erro ao adicionar: {e}")
 
