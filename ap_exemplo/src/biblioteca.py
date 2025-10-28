@@ -194,7 +194,7 @@ print(filmer)# Nesta parte vale mudar o return do metodo buscar_filme
 usuario = Usuario("João Silva", 1)
 
 try:
-    print("=== SISTEMA BIBLIOTECA ===\n")
+    print("=== SISTEMA LOCADORA ===\n")
     print(usuario.pegar_emprestado(filme1))
     print(usuario.pegar_emprestado(filme2))
     print(usuario.pegar_emprestado(filme3))
@@ -202,13 +202,13 @@ try:
     print(f"\nStatus do usuário: {usuario}")
 
     # Tentativa de pegar quarto livro (deve falhar)
-    print("\nTentando pegar quarto livro...")
-    print(usuario.pegar_emprestado(livro4))
+    print("\nTentando pegar quarto filme...")
+    print(usuario.pegar_emprestado(filme4))
 
 except (FilmeIndisponivelError, LimiteEmprestimosExcedidoError) as e:
     print(f"Erro: {e}")
 
-print("\n=== DEVOLUÇÃO DE LIVROS ===")
-print(usuario.devolver_livro(filme1))
+print("\n=== DEVOLUÇÃO DE FILMES ===")
+print(usuario.devolver_filme(filme1))
 print(f"Status após devolução: {filme1}")
 print(f"Status do usuário: {usuario}")
