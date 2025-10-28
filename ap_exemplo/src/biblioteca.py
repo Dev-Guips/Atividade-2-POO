@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 
 #SABER ONDE USAR CADA EXCEÇÃO QUE VAMOS CRIAR:
 
-# Exeção Base -> Tentar remover um filme que não existe / Tentar acessar um ID inválido
+# Exceção Base -> Tentar remover um filme que não existe / Tentar acessar um ID inválido
 class LocadoraError(Exception): 
     pass
 
@@ -195,28 +195,28 @@ print(f"O filme {filmeh}")
 
 filmer = locadora.buscar_filme(filme3.id_filme)
 print(filmer)# Nesta parte vale mudar o return do metodo buscar_filme
-    
 
-    usuario = Usuario("João Silva", 1)
-    
+
+usuario = Usuario("João Silva", 1)
+
     # Testando funcionalidades
-    try:
-        print("=== SISTEMA BIBLIOTECA ===\n")
-        print(usuario.pegar_emprestado(livro1))
-        print(usuario.pegar_emprestado(livro2))
-        print(usuario.pegar_emprestado(livro3))
-        
-        print(f"\nStatus do usuário: {usuario}")
-        
-        # Tentativa de pegar quarto livro (deve falhar)
-        print("\nTentando pegar quarto livro...")
-        print(usuario.pegar_emprestado(livro4))
-        
-    except (LivroIndisponivelError, LimiteEmprestimosExcedidoError) as e:
-        print(f"Erro: {e}")
-    
-    # Devolvendo livros
-    print("\n=== DEVOLUÇÃO DE LIVROS ===")
-    print(usuario.devolver_livro(livro1))
-    print(f"Status após devolução: {livro1}")
-    print(f"Status do usuário: {usuario}")
+try:
+  print("=== SISTEMA BIBLIOTECA ===\n")
+  print(usuario.pegar_emprestado(filme1))
+  print(usuario.pegar_emprestado(filme2))
+  print(usuario.pegar_emprestado(filme3))
+
+  print(f"\nStatus do usuário: {usuario}")
+
+  # Tentativa de pegar quarto livro (deve falhar)
+  print("\nTentando pegar quarto filme...")
+  print(usuario.pegar_emprestado(filme4))
+
+except (LivroIndisponivelError, LimiteEmprestimosExcedidoError) as e:
+  print(f"Erro: {e}")
+
+# Devolvendo livros
+  print("\n=== DEVOLUÇÃO DE LIVROS ===")
+  print(usuario.devolver_livro(livro1))
+  print(f"Status após devolução: {livro1}")
+  print(f"Status do usuário: {usuario}")
