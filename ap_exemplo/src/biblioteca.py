@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 
 #SABER ONDE USAR CADA EXCEÇÃO QUE VAMOS CRIAR:
 
-# Exceção Base -> Tentar remover um filme que não existe / Tentar acessar um ID inválido
+# Exeção Base -> Tentar remover um filme que não existe / Tentar acessar um ID inválido
 class LocadoraError(Exception): 
     pass
 
@@ -115,36 +115,36 @@ class Filme:
 
 
 # CLASSE USUARIO (Capítulo 7)
-class Usuario:
-    def __init__(self, nome: str, id_usuario: int):
-        self.nome = nome
-        self.id = id_usuario
-        self.livros_emprestados = []
+# class Usuario:
+#     def __init__(self, nome: str, id_usuario: int):
+#         self.nome = nome
+#         self.id = id_usuario
+#         self.livros_emprestados = []
     
-    def pegar_emprestado(self, livro: Livro):
-        if len(self.livros_emprestados) >= 3:
-            raise LimiteEmprestimosExcedidoError(
-                f"Usuário {self.nome} excedeu o limite de 3 empréstimos"
-            )
+#     def pegar_emprestado(self, livro: Livro):
+#         if len(self.livros_emprestados) >= 3:
+#             raise LimiteEmprestimosExcedidoError(
+#                 f"Usuário {self.nome} excedeu o limite de 3 empréstimos"
+#             )
         
-        livro.emprestar()
-        self.livros_emprestados.append(livro)
-        return f"Livro '{livro.titulo}' emprestado com sucesso"
+#         livro.emprestar()
+#         self.livros_emprestados.append(livro)
+#         return f"Livro '{livro.titulo}' emprestado com sucesso"
     
-    def devolver_livro(self, livro: Livro):
-        if livro not in self.livros_emprestados:
-            raise BibliotecaError(f"Livro '{livro.titulo}' não foi emprestado por este usuário")
+#     def devolver_livro(self, livro: Livro):
+#         if livro not in self.livros_emprestados:
+#             raise BibliotecaError(f"Livro '{livro.titulo}' não foi emprestado por este usuário")
         
-        multa = livro.devolver()
-        self.livros_emprestados.remove(livro)
+#         multa = livro.devolver()
+#         self.livros_emprestados.remove(livro)
         
-        if multa > 0:
-            return f"Livro devolvido com multa de R$ {multa:.2f}"
-        return "Livro devolvido dentro do prazo"
+#         if multa > 0:
+#             return f"Livro devolvido com multa de R$ {multa:.2f}"
+#         return "Livro devolvido dentro do prazo"
     
-    def __str__(self):
-        livros_titulos = [livro.titulo for livro in self.livros_emprestados]
-        return f"Usuário: {self.nome} (ID: {self.id}) - Livros: {len(self.livros_emprestados)} - {livros_titulos}"
+#     def __str__(self):
+#         livros_titulos = [livro.titulo for livro in self.livros_emprestados]
+#         return f"Usuário: {self.nome} (ID: {self.id}) - Livros: {len(self.livros_emprestados)} - {livros_titulos}"
 
 
 
@@ -195,28 +195,28 @@ print(f"O filme {filmeh}")
 
 filmer = locadora.buscar_filme(filme3.id_filme)
 print(filmer)# Nesta parte vale mudar o return do metodo buscar_filme
+    
 
-
-usuario = Usuario("João Silva", 1)
-
-    # Testando funcionalidades
-try:
-  print("=== SISTEMA BIBLIOTECA ===\n")
-  print(usuario.pegar_emprestado(filme1))
-  print(usuario.pegar_emprestado(filme2))
-  print(usuario.pegar_emprestado(filme3))
-
-  print(f"\nStatus do usuário: {usuario}")
-
-  # Tentativa de pegar quarto livro (deve falhar)
-  print("\nTentando pegar quarto filme...")
-  print(usuario.pegar_emprestado(filme4))
-
-except (LivroIndisponivelError, LimiteEmprestimosExcedidoError) as e:
-  print(f"Erro: {e}")
-
-# Devolvendo livros
-  print("\n=== DEVOLUÇÃO DE LIVROS ===")
-  print(usuario.devolver_livro(livro1))
-  print(f"Status após devolução: {livro1}")
-  print(f"Status do usuário: {usuario}")
+    # usuario = Usuario("João Silva", 1)
+    
+    # # Testando funcionalidades
+    # try:
+    #     print("=== SISTEMA BIBLIOTECA ===\n")
+    #     print(usuario.pegar_emprestado(livro1))
+    #     print(usuario.pegar_emprestado(livro2))
+    #     print(usuario.pegar_emprestado(livro3))
+        
+    #     print(f"\nStatus do usuário: {usuario}")
+        
+    #     # Tentativa de pegar quarto livro (deve falhar)
+    #     print("\nTentando pegar quarto livro...")
+    #     print(usuario.pegar_emprestado(livro4))
+        
+    # except (LivroIndisponivelError, LimiteEmprestimosExcedidoError) as e:
+    #     print(f"Erro: {e}")
+    
+    # # Devolvendo livros
+    # print("\n=== DEVOLUÇÃO DE LIVROS ===")
+    # print(usuario.devolver_livro(livro1))
+    # print(f"Status após devolução: {livro1}")
+    # print(f"Status do usuário: {usuario}")
