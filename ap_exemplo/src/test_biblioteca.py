@@ -1,107 +1,107 @@
 from datetime import datetime, timedelta
 
 # EXCEÇÃO PERSONALIZADA (Capítulo 9)
-class BibliotecaError(Exception):
+class LocadoraError(Exception):
     pass
 
-class LimiteEmprestimosExcedidoError(BibliotecaError):
+class LimiteEmprestimosExcedidoError(LocadoraError):
     pass
 
-class LivroIndisponivelError(BibliotecaError):
+class FilmeIndisponivelError(LocadoraError):
     pass
 
-# CLASSE LIVRO (Capítulo 7)
-class Livro:
-    def __init__(self, titulo: str, autor: str, isbn: str):
+# CLASSE FILME (Capítulo 7)
+class Filme:
+    def __init__(self, titulo: str, diretor: str, codigo: str):
         self.titulo = titulo
-        self.autor = autor
-        self.isbn = isbn
+        self.diretor = diretor
+        self.codigo = codigo
         self.disponivel = True
         self.data_emprestimo = None
     
     def emprestar(self):
         if not self.disponivel:
-            raise LivroIndisponivelError(f"Livro '{self.titulo}' não está disponível")
+            raise FilmeIndisponivelError(f"Filme '{self.titulo}' não está disponível")
         self.disponivel = False
         self.data_emprestimo = datetime.now()
     
     def devolver(self):
         if self.disponivel:
-            raise BibliotecaError(f"Livro '{self.titulo}' já está disponível")
+            raise LocadoraError(f"Filme '{self.titulo}' já está disponível")
         self.disponivel = True
         return self.calcular_multa()
     
     def calcular_multa(self):
         if self.data_emprestimo:
             dias_emprestimo = (datetime.now() - self.data_emprestimo).days
-            if dias_emprestimo > 14:  # Prazo de 14 dias
-                return (dias_emprestimo - 14) * 1.0  # R$ 1,00 por dia
+            if dias_emprestimo > 5:  # Prazo de 5 dias
+                return (dias_emprestimo - 5) * 2.0  # R$ 2,00 por dia
         return 0.0
     
     def __str__(self):
         status = "Disponível" if self.disponivel else "Emprestado"
-        return f"'{self.titulo}' - {self.autor} [{status}]"
+        return f"'{self.titulo}' - {self.diretor} [{status}]"
 
-# CLASSE USUARIO (Capítulo 7)
-class Usuario:
-    def __init__(self, nome: str, id_usuario: int):
+# CLASSE CLIENTE (Capítulo 7)
+class Cliente:
+    def __init__(self, nome: str, id_cliente: int):
         self.nome = nome
-        self.id = id_usuario
-        self.livros_emprestados = []
+        self.id = id_cliente
+        self.filmes_emprestados = []
     
-    def pegar_emprestado(self, livro: Livro):
-        if len(self.livros_emprestados) >= 3:
+    def pegar_emprestado(self, filme: Filme):
+        if len(self.filmes_emprestados) >= 3:
             raise LimiteEmprestimosExcedidoError(
-                f"Usuário {self.nome} excedeu o limite de 3 empréstimos"
+                f"Cliente {self.nome} excedeu o limite de 3 empréstimos"
             )
         
-        livro.emprestar()
-        self.livros_emprestados.append(livro)
-        return f"Livro '{livro.titulo}' emprestado com sucesso"
+        filme.emprestar()
+        self.filmes_emprestados.append(filme)
+        return f"Filme '{filme.titulo}' emprestado com sucesso"
     
-    def devolver_livro(self, livro: Livro):
-        if livro not in self.livros_emprestados:
-            raise BibliotecaError(f"Livro '{livro.titulo}' não foi emprestado por este usuário")
+    def devolver_filme(self, filme: Filme):
+        if filme not in self.filmes_emprestados:
+            raise LocadoraError(f"Filme '{filme.titulo}' não foi emprestado por este cliente")
         
-        multa = livro.devolver()
-        self.livros_emprestados.remove(livro)
+        multa = filme.devolver()
+        self.filmes_emprestados.remove(filme)
         
         if multa > 0:
-            return f"Livro devolvido com multa de R$ {multa:.2f}"
-        return "Livro devolvido dentro do prazo"
+            return f"Filme devolvido com multa de R$ {multa:.2f}"
+        return "Filme devolvido dentro do prazo"
     
     def __str__(self):
-        livros_titulos = [livro.titulo for livro in self.livros_emprestados]
-        return f"Usuário: {self.nome} (ID: {self.id}) - Livros: {len(self.livros_emprestados)} - {livros_titulos}"
+        filmes_titulos = [filme.titulo for filme in self.filmes_emprestados]
+        return f"Cliente: {self.nome} (ID: {self.id}) - Filmes: {len(self.filmes_emprestados)} - {filmes_titulos}"
 
 # EXEMPLO DE USO
 if __name__ == "__main__":
-    # Criando livros e usuários
-    livro1 = Livro("Dom Casmurro", "Machado de Assis", "978-85-123-4567-8")
-    livro2 = Livro("1984", "George Orwell", "978-85-234-5678-9")
-    livro3 = Livro("O Senhor dos Anéis", "J.R.R. Tolkien", "978-85-345-6789-0")
-    livro4 = Livro("Harry Potter", "J.K. Rowling", "978-85-456-7890-1")
+    # Criando filmes e clientes
+    filme1 = Filme("Interestelar", "Christopher Nolan", "001")
+    filme2 = Filme("A Origem", "Christopher Nolan", "002")
+    filme3 = Filme("Matrix", "Lana e Lilly Wachowski", "003")
+    filme4 = Filme("O Senhor dos Anéis", "Peter Jackson", "004")
     
-    usuario = Usuario("João Silva", 1)
+    cliente = Cliente("João Silva", 1)
     
     # Testando funcionalidades
     try:
-        print("=== SISTEMA BIBLIOTECA ===\n")
-        print(usuario.pegar_emprestado(livro1))
-        print(usuario.pegar_emprestado(livro2))
-        print(usuario.pegar_emprestado(livro3))
+        print("=== SISTEMA LOCADORA ===\n")
+        print(cliente.pegar_emprestado(filme1))
+        print(cliente.pegar_emprestado(filme2))
+        print(cliente.pegar_emprestado(filme3))
         
-        print(f"\nStatus do usuário: {usuario}")
+        print(f"\nStatus do cliente: {cliente}")
         
-        # Tentativa de pegar quarto livro (deve falhar)
-        print("\nTentando pegar quarto livro...")
-        print(usuario.pegar_emprestado(livro4))
+        # Tentativa de pegar quarto filme (deve falhar)
+        print("\nTentando pegar quarto filme...")
+        print(cliente.pegar_emprestado(filme4))
         
-    except (LivroIndisponivelError, LimiteEmprestimosExcedidoError) as e:
+    except (FilmeIndisponivelError, LimiteEmprestimosExcedidoError) as e:
         print(f"Erro: {e}")
     
-    # Devolvendo livros
-    print("\n=== DEVOLUÇÃO DE LIVROS ===")
-    print(usuario.devolver_livro(livro1))
-    print(f"Status após devolução: {livro1}")
-    print(f"Status do usuário: {usuario}")
+    # Devolvendo filmes
+    print("\n=== DEVOLUÇÃO DE FILMES ===")
+    print(cliente.devolver_filme(filme1))
+    print(f"Status após devolução: {filme1}")
+    print(f"Status do cliente: {cliente}")
