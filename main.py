@@ -1,7 +1,7 @@
 # --------------------------
 # IMPORTS
 # --------------------------
-from src.locadora import Filme, Usuario, FilmeIndisponivelError, LimiteEmprestimosExcedidoError
+from src.locadora import Filme, Usuario, FilmeEmprestarIndisponivelError, LimiteEmprestimosExcedidoError
 
 # --------------------------
 # FUNÇÃO PRINCIPAL
@@ -47,7 +47,7 @@ def main():
         print("\n3. João tentando pegar quarto filme:")
         print(usuario1.pegar_emprestado(filmes[4]))
 
-    except (FilmeIndisponivelError, LimiteEmprestimosExcedidoError) as e:
+    except (FilmeEmprestarIndisponivelError, LimiteEmprestimosExcedidoError) as e:
         print(f"❌ Erro: {e}")
 
     # --------------------------
