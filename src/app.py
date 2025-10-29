@@ -27,6 +27,14 @@ def filmes():
     filmes = locadora.catalogo.values()
     return render_template("filmes.html", filmes=filmes)
 
+@app.route("/minha-lista") # ROTA CORRIGIDA: sem o underscore
+def minha_lista():
+    return render_template("minhalista.html")
+
+@app.route("/series")
+def series():
+    return render_template("series.html")
+
 @app.route("/cadastrar", methods=["GET", "POST"])
 def cadastrar():
     if request.method == "POST":
