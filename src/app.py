@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from locadora import Locadora, Filme
-
+import os
 app = Flask(__name__)
 
 locadora = Locadora()
@@ -34,6 +34,7 @@ def minha_lista():
 @app.route("/series")
 def series():
     return render_template("series.html")
+
 
 @app.route("/cadastrar", methods=["GET", "POST"])
 def cadastrar():

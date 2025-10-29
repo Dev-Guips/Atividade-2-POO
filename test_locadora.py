@@ -3,6 +3,7 @@ import pytest
 from datetime import datetime, timedelta
 from src.locadora import Filme, Usuario, LimiteEmprestimosExcedidoError, FilmeEmprestarIndisponivelError
 
+
 # ==============================
 # TESTES FUNCIONAIS
 # ==============================

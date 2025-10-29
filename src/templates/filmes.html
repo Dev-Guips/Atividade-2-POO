@@ -69,13 +69,15 @@
         }
 
         .card-poster {
-            /* Placeholder para o poster (substitua por uma imagem real) */
-            height: 350px; 
-            background: #333 url('https://via.placeholder.com/250x350/333333/FFFFFF?text=Poster') center/cover;
-            display: flex;
-            align-items: flex-end;
-            justify-content: flex-start;
+            height: 350px;
         }
+
+        /* NOVO CSS para a imagem dentro do card-poster */
+        .card-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
+          }
 
         /* Status de Disponibilidade */
         .card-status {
@@ -160,7 +162,26 @@
             <div class="movie-card">
                 
                 <div class="card-poster">
-                    </div>
+                    
+                    {% set nome_filme = f.nome | lower | replace(' ', '_') %}
+
+                    {% if f.nome == "Toy Story" %}
+                        {% set nome_arquivo = 'toyStory.jpg' %}
+                    {% elif f.nome == "Interestelar" %}
+                        {% set nome_arquivo = 'interstellar.png' %}
+                    {% elif f.nome == "Matrix" %}
+                        {% set nome_arquivo = 'matrix.png' %}
+                    {% elif f.nome == "Forando a Banca" %}
+                        {# Adicionei um placeholder para o novo filme, se a imagem não existir #}
+                        {% set nome_arquivo = 'placeholder.png' %} 
+                    {% else %}
+                        {# Assume o padrão: nome_do_filme.png #}
+                        {% set nome_arquivo = nome_filme + '.png' %} 
+                    {% endif %}
+                    
+                    <img src="{{ url_for('static', filename='img/' + nome_arquivo) }}" 
+                        alt="Pôster do filme {{ f.nome }}">
+                </div>
                 
                 <div class="card-status {{ status_class }}">
                     {{ "Disponível" if f.qtd_disponivel > 0 else "Esgotado" }}
