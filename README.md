@@ -1,97 +1,117 @@
-# 📚 Sistema de Biblioteca Simples
+Perfeito 😎 Aqui está o **README.md** atualizado, agora com os e-mails de ambos os autores:
 
-Um projeto em Python que simula o funcionamento de uma biblioteca, permitindo gerenciar livros, usuários e empréstimos. O sistema inclui tratamento de exceções, controle de disponibilidade e testes automatizados com **pytest**.
+```markdown
+# Sistema de Locadora em Python
 
----
+Este projeto implementa um **sistema de gerenciamento de locadora** usando Python e POO (Programação Orientada a Objetos).  
+O sistema permite gerenciar filmes, usuários, empréstimos, devoluções e multas por atraso.
 
-## 🧾 Sumário
-
-- [Introdução](#introdução)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Instalação](#instalação)
-- [Uso](#uso)
-- [Funcionalidades](#funcionalidades)
-- [Testes](#testes)
-- [Dependências](#dependências)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
+> Este projeto foi desenvolvido com base no algoritmo fornecido pelo professor **Edson de Oliveira Vieira**, da disciplina **Linguagem Orientada a Objetos** do **4º semestre de Ciência da Computação** da Faculdade Impacta.  
+> 📧 Contato: **edson.vieira@faculdadeimpacta.com.br**
 
 ---
 
-## 🚀 Introdução
+## Estrutura do Projeto
 
-O **Sistema de Biblioteca Simples** foi desenvolvido para demonstrar conceitos de Programação Orientada a Objetos (POO), exceções personalizadas e testes automatizados em Python.  
-Ele permite o cadastro de livros, o controle de empréstimos e devoluções, além do tratamento de erros, como tentativa de empréstimo de livro indisponível ou ultrapassagem do limite de livros emprestados.
+```
 
----
-
-## 📁 Estrutura do Projeto
-
-```text
-ap_exemplo/
+.
 ├── src/
-│   ├── biblioteca.py
-│   └── test_biblioteca.py
-├── venv/
-├── main.py
-├── requirements.txt
-└── README.md
+│   ├── locadora.py      # Classes: Filme, Usuario, Locadora
+│   └── **init**.py      # Inicializador do pacote
+├── tests/
+│   └── test_locadora.py # Testes automatizados usando pytest
+├── main.py              # Exemplo de uso interativo do sistema
+├── requirements.txt     # Dependências do projeto
+└── .gitignore           # Ignora venv, pycache e arquivos desnecessários
+
+````
+
+---
+
+## Pré-requisitos
+
+- Python 3.10+ instalado
+- Recomenda-se criar um **ambiente virtual (venv)** para o projeto:
+
+```bash
+python -m venv venv
+````
+
+* Ativar o venv:
+
+  * **Windows:** `venv\Scripts\activate`
+  * **Linux/Mac:** `source venv/bin/activate`
+
+* Instalar dependências:
+
+```bash
+pip install -r requirements.txt
+```
+
+> Atualmente, o projeto depende apenas do `pytest` para testes automatizados.
+
+---
+
+## Executando o Sistema
+
+Para executar o exemplo interativo:
+
+```bash
+python main.py
+```
+
+Você poderá ver a simulação de empréstimos e devoluções de filmes, incluindo status e multas.
+
+---
+
+## Testes Automatizados
+
+O projeto possui testes unitários com **pytest** para validar:
+
+* Empréstimo e devolução de filmes
+* Limite máximo de 3 empréstimos por usuário
+* Tentativa de pegar filmes indisponíveis
+* Devolução de filmes não emprestados
+* Multas por atraso
+
+### Rodando os testes
+
+Recomenda-se usar o parâmetro `-s` para que o `pytest` mostre os `print()` do teste, incluindo o valor das multas:
+
+```bash
+pytest -s tests/test_locadora.py
 ```
 
 ---
 
-## ⚙️ Instalação
+## Exemplo de Saída de Teste de Multa
 
-1. **Clone este repositório**
-   ```bash
-   git clone https://github.com/seu-usuario/ap_exemplo.git
-   cd ap_exemplo
-   ```
+Para um filme devolvido com atraso de 5 dias:
 
-## Crie um ambiente virtual
+```
+Filme devolvido com multa de R$ 5.00
+```
 
-python -m venv venv
-source venv/bin/activate # Linux/Mac
-venv\Scripts\activate # Windows
+---
 
-## Instale as dependências
+## Observações
 
-pip install -r requirements.txt
+* O limite de empréstimos por usuário é **3 filmes**.
+* A multa por atraso é de **R$ 1,00 por dia** após 15 dias de empréstimo.
+* Recomendamos não subir a pasta `venv` para o repositório. Utilize o `.gitignore`.
 
-## Execute o sistema a partir do arquivo principal:
+---
 
-python main.py
+## Autores
 
-## A saída esperada deve exibir um menu simples com a simulação do gerenciamento de uma biblioteca:
+* **Gabriel Muchon Pavanelli**
+  📧 [gabriel.pavanelli@aluno.faculdadeimpacta.com.br](mailto:gabriel.pavanelli@aluno.faculdadeimpacta.com.br)
 
-=== SISTEMA BIBLIOTECA SIMPLES ===
+* **Guilherme Pinheiro Dos Santos**
+  📧 [guilherme.psantos@aluno.faculdadeimpacta.com.br](mailto:guilherme.psantos@aluno.faculdadeimpacta.com.br)
 
-Livro emprestado com sucesso!
-Erro: LivroIndisponivelError
+> Desenvolvido com base no algoritmo do professor **Edson de Oliveira Vieira**
+> 📧 [edson.vieira@faculdadeimpacta.com.br](mailto:edson.vieira@faculdadeimpacta.com.br)
 
-## Para executar os testes:
 
-python src/test_biblioteca.py
-
-🤝 Contribuição
-
-Contribuições são bem-vindas!
-Para contribuir:
-
-Faça um fork do repositório.
-
-Crie um branch para sua feature (git checkout -b feature/nova-funcionalidade).
-
-Faça commit das alterações.
-
-Envie um pull request.
-
-📜 Licença
-
-Este projeto é distribuído sob a licença MIT.
-Sinta-se livre para usá-lo e modificá-lo conforme necessário.
-
-👤 Autor
-
-Desenvolvido por [Edson de Oliveira Vieira]
-📧 Contato: [edson.vieira@faculdadeimpacta.com.br]
