@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
+    <title>GG Filmes & Séries | Home</title>
+    
+    <style>
+        /* ================================================= */
+        /* ESTILOS NETFLIX-LIKE PARA GG FILMES & SÉRIES      */
+        /* ================================================= */
+        :root {
+            /* Cores baseadas no logo anterior (Laranja/Azul) e no estilo Dark */
+            --color-dark: #141414; /* Fundo principal */
+            --color-highlight: #FF9800; /* Laranja/Ouro para destaque */
+            --color-text: #FFFFFF; /* Texto principal */
+            --color-text-secondary: #AAAAAA; /* Texto secundário */
+        }
+        
+        /* Reset básico e tipografia */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--color-dark);
+            color: var(--color-text);
+            min-height: 100vh;
+        }
+
+        /* NAVBAR FIXA (TOPO) */
+        .navbar {
+            background-color: var(--color-dark);
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-highlight);
+            text-decoration: none;
+            /* Detalhe: pode-se usar o vermelho clássico do Netflix: color: #E50914; */
+        }
+
+        .nav-links a {
+            color: var(--color-text);
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-text-secondary);
+        }
+
+        /* SEÇÃO DE DESTAQUE (HERO SECTION) */
+        .hero {
+            position: relative;
+            height: 80vh; 
+            /* Imagem de Fundo (Substitua por uma imagem real do seu filme em destaque!) */
+            background: linear-gradient(rgba(20, 20, 20, 0.7), rgba(20, 20, 20, 0.9)), url('https://via.placeholder.com/1920x800/222222/FFFFFF?text=FILME+EM+DESTAQUE') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            padding: 0 60px;
+            margin-top: 60px; /* Compensar a navbar fixa */
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--color-text-secondary);
+        }
+
+        .hero-btn {
+            background-color: var(--color-highlight); 
+            color: var(--color-dark);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            margin-right: 15px;
+            transition: background-color 0.3s, opacity 0.3s;
+        }
+
+        .hero-btn.secondary {
+            background-color: #333;
+            color: var(--color-text);
+        }
+
+        .hero-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* SEÇÃO DE CTAS (Antigos Links transformados em caixas) */
+        .content-section {
+            padding: 50px 60px;
+        }
+
+        .cta-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        .cta-box {
+            background-color: #222222;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            max-width: 400px;
+            border-top: 3px solid var(--color-highlight);
+        }
+
+        .cta-box h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--color-text);
+        }
+
+        .cta-box a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: var(--color-highlight);
+            color: var(--color-dark);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .cta-box a:hover {
+            background-color: #FFB74D;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="/" class="logo">GG Filmes & Séries</a>
+        <div class="nav-links">
+            <a href="/">Início</a>
+            <a href="/filmes">Filmes</a>
+            <a href="/series">Séries</a>
+            <a href="/minha-lista">Minha Lista</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Bem-vindo(a) à Locadora de Filmes GG</h1>
+                <p>O seu acervo pessoal com os maiores sucessos do cinema e as séries mais aclamadas. Prepare a pipoca, o show vai começar!</p>
+                
+                <a href="/filmes" class="hero-btn">▶️ Assistir Agora</a>
+                
+                <a href="/cadastrar" class="hero-btn secondary">Cadastrar Filme</a>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="cta-container">
+                
+                <div class="cta-box">
+                    <h2>Verifique nosso acervo</h2>
+                    <p style="color: var(--color-text-secondary);">Explore nosso catálogo completo e encontre o seu próximo filme ou série favorita.</p>
+                    <a href="/filmes">Ver Filmes e Séries</a>
+                </div>
+
+                <div class="cta-box">
+                    <h2>Não encontrou o que deseja?</h2>
+                    <p style="color: var(--color-text-secondary);">Ajude a aumentar o nosso catálogo. Cadastre um novo título e compartilhe com a comunidade.</p>
+                    <a href="/cadastrar">Cadastrar Novo Título</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>

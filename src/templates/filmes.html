@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo | GG Filmes & Séries</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
+    
+    <style>
+        /* ================================================= */
+        /* ESTILOS NETFLIX-LIKE PARA O CATÁLOGO DE FILMES    */
+        /* ================================================= */
+        :root {
+            --color-dark: #141414; /* Fundo principal */
+            --color-highlight: #FF9800; /* Laranja/Ouro para destaque */
+            --color-text: #FFFFFF; /* Texto principal */
+            --color-text-secondary: #AAAAAA; /* Texto secundário */
+            --color-status-ok: #00A632; /* Verde para Disponível */
+            --color-status-not: #E50914; /* Vermelho para Emprestado */
+        }
+        
+        /* Reset e Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--color-dark);
+            color: var(--color-text);
+            min-height: 100vh;
+            padding-top: 80px; /* Espaço para a navbar (se for usar) */
+        }
+
+        /* Título */
+        .page-title {
+            font-size: 2.5rem;
+            text-align: center;
+            padding: 30px 0;
+            color: var(--color-highlight);
+        }
+
+        /* CONTEÚDO PRINCIPAL - GALERIA */
+        .movie-gallery {
+            display: grid;
+            /* Grid responsivo: cards de 250px a 300px */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 20px;
+            padding: 0 40px 60px;
+        }
+
+        /* CARD DO FILME */
+        .movie-card {
+            background-color: #1c1c1c;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .movie-card:hover {
+            transform: scale(1.05); /* Efeito "zoom" ao passar o mouse */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+            z-index: 5;
+        }
+
+        .card-poster {
+            /* Placeholder para o poster (substitua por uma imagem real) */
+            height: 350px; 
+            background: #333 url('https://via.placeholder.com/250x350/333333/FFFFFF?text=Poster') center/cover;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+        }
+
+        /* Status de Disponibilidade */
+        .card-status {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--color-text);
+            background-color: var(--color-status-not);
+            position: absolute; /* Fixa no topo do card */
+            top: 10px;
+            right: 10px;
+            border-radius: 3px;
+        }
+        
+        .card-status.available {
+            background-color: var(--color-status-ok);
+        }
+
+
+        .card-info {
+            padding: 15px;
+        }
+
+        .card-info h2 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--color-text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-info p {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 3px;
+        }
+
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #282828;
+        }
+        
+        .card-details span {
+            color: var(--color-highlight);
+            font-weight: 600;
+        }
+        
+        /* BOTÃO VOLTAR */
+        .back-link {
+            display: block;
+            width: 150px;
+            text-align: center;
+            margin: 30px auto;
+            padding: 10px 0;
+            background-color: var(--color-highlight);
+            color: var(--color-dark);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+        
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1 class="page-title">🎬 Catálogo de Filmes e Séries</h1>
+
+    <div class="movie-gallery">
+        {% for f in filmes %}
+            {% set status_class = 'available' if f.qtd_disponivel > 0 else 'unavailable' %}
+            
+            <div class="movie-card">
+                
+                <div class="card-poster">
+                    </div>
+                
+                <div class="card-status {{ status_class }}">
+                    {{ "Disponível" if f.qtd_disponivel > 0 else "Esgotado" }}
+                </div>
+
+                <div class="card-info">
+                    <h2>{{ f.nome }}</h2>
+                    
+                    <p>
+                        {{ f.genero }} | Dirigido por: {{ f.autor }}
+                    </p>
+                    
+                    <div class="card-details">
+                        <span>{{ f.ano_lancamento }}</span>
+                        <span>{{ f.duracao }} min</span>
+                        <span style="color: var(--color-text-secondary);">ID: {{ f.id_filme }}</span>
+                    </div>
+
+                    <p style="margin-top: 10px;">
+                        **Unidades:** <span>{{ f.qtd_disponivel }}</span>
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <a href="/" class="back-link">Voltar ao Início</a>
+
+</body>
+</html>

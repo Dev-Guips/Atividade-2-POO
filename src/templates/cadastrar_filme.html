@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Título | GG Filmes & Séries</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
+    
+    <style>
+        /* ================================================= */
+        /* ESTILOS NETFLIX-LIKE PARA O FORMULÁRIO DE CADASTRO*/
+        /* ================================================= */
+        :root {
+            --color-dark: #141414; /* Fundo principal */
+            --color-card-bg: #1c1c1c; /* Fundo do card do formulário */
+            --color-highlight: #FF9800; /* Laranja/Ouro para destaque */
+            --color-text: #FFFFFF; /* Texto principal */
+            --color-input-bg: #333333; /* Fundo dos campos de input */
+        }
+        
+        /* Reset e Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--color-dark);
+            color: var(--color-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        /* Título */
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--color-highlight);
+        }
+        
+        /* CARD DO FORMULÁRIO */
+        .form-container {
+            background-color: var(--color-card-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 500px; /* Limita a largura para melhor leitura */
+        }
+
+        /* ESTILO DO FORMULÁRIO */
+        form {
+            display: grid;
+            gap: 15px; /* Espaço entre os campos */
+        }
+
+        /* Agrupamento de Label e Input */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input[type="text"], 
+        input[type="number"] {
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--color-input-bg);
+            color: var(--color-text);
+            font-size: 1rem;
+            transition: border-bottom 0.3s;
+        }
+
+        input[type="text"]:focus, 
+        input[type="number"]:focus {
+            outline: none;
+            border-bottom: 2px solid var(--color-highlight);
+        }
+
+        /* Botão Salvar */
+        button[type="submit"] {
+            background-color: var(--color-highlight);
+            color: var(--color-dark);
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: opacity 0.3s, background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            opacity: 0.9;
+            background-color: #FFB74D;
+        }
+
+        /* Botão Voltar */
+        .back-link {
+            display: block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            color: var(--color-text);
+            text-decoration: none;
+            border: 1px solid var(--color-text);
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .back-link:hover {
+            background-color: var(--color-highlight);
+            color: var(--color-dark);
+            border: 1px solid var(--color-highlight);
+        }
+
+    </style>
+</head>
+<body>
+
+<h1 class="page-title">➕ Cadastrar Novo Título</h1>
+
+<div class="form-container">
+    <form method="POST">
+        
+        <div class="form-group">
+            <label for="id_filme">ID do Título:</label>
+            <input type="number" id="id_filme" name="id_filme" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="nome">Nome do Filme/Série:</label>
+            <input type="text" id="nome" name="nome" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="genero">Gênero:</label>
+            <input type="text" id="genero" name="genero" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="autor">Autor/Diretor:</label>
+            <input type="text" id="autor" name="autor" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="ano">Ano de Lançamento:</label>
+            <input type="number" id="ano" name="ano" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="duracao">Duração (min):</label>
+            <input type="number" id="duracao" name="duracao" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="qtd">Unidades em Estoque:</label>
+            <input type="number" id="qtd" name="qtd" required>
+        </div>
+
+        <button type="submit">Salvar Título no Catálogo</button>
+    </form>
+</div>
+
+<a href="/filmes" class="back-link">Voltar ao Catálogo</a>
+</body>
+</html>
