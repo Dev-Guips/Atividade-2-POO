@@ -1,62 +1,118 @@
+# test_locadora.py
 import pytest
 from datetime import datetime, timedelta
-from src.locadora import Filme, Usuario, FilmeEmprestarIndisponivelError, LimiteEmprestimosExcedidoError
+from src.locadora import Filme, Usuario, LimiteEmprestimosExcedidoError, FilmeEmprestarIndisponivelError
 
-# --------------------------
-# FIXTURES
-# --------------------------
-@pytest.fixture
-def filmes():
-    return [
-        Filme("Interestelar", "Sci-Fi", "Christopher Nolan", 1, 2014, 169, 5),
-        Filme("Matrix", "Sci-Fi", "Lana e Lilly Wachowski", 2, 1999, 136, 5),
-        Filme("O Poderoso Chefão", "Crime", "Francis Ford Coppola", 3, 1972, 175, 3),
+# ==============================
+# TESTES FUNCIONAIS
+# ==============================
+
+def test_emprestar_e_devolver_filme():
+    """
+    Testa empréstimo e devolução de um filme dentro do prazo.
+    """
+    usuario = Usuario("João", 1)
+    filme = Filme("Interestelar", "Sci-Fi", "Christopher Nolan", 1, 2014, 169, 1)
+
+    # Emprestar filme
+    resultado_emprestimo = usuario.pegar_emprestado(filme)
+    assert resultado_emprestimo == f"Filme '{filme.nome}' emprestado com sucesso"
+    assert filme.disponivel == False
+    assert filme in usuario.filmes_emprestados
+
+    # Devolver filme dentro do prazo
+    resultado_devolucao = usuario.devolver_filme(filme)
+    assert resultado_devolucao == "Filme devolvido dentro do prazo"
+    assert filme.disponivel == True
+    assert filme not in usuario.filmes_emprestados
+
+def test_limite_emprestimos():
+    """
+    Testa que o usuário não pode pegar mais de 3 filmes.
+    """
+    usuario = Usuario("Maria", 2)
+    filmes = [
+        Filme("Filme 1", "Ação", "Diretor 1", 2, 2020, 120, 1),
+        Filme("Filme 2", "Ação", "Diretor 2", 3, 2020, 120, 1),
+        Filme("Filme 3", "Ação", "Diretor 3", 4, 2020, 120, 1),
     ]
 
-@pytest.fixture
-def usuario():
-    return Usuario("João Silva", 1)
+    # Empresta 3 filmes normalmente
+    for f in filmes:
+        usuario.pegar_emprestado(f)
 
-# --------------------------
-# TESTES
-# --------------------------
-
-def test_emprestar_filme_disponivel(usuario, filmes):
-    # João pega um filme disponível
-    resultado = usuario.pegar_emprestado(filmes[0])
-    assert filmes[0] in usuario.filmes_emprestados
-    assert not filmes[0].disponivel
-    assert "emprestado com sucesso" in resultado
-
-def test_emprestar_filme_indisponivel(usuario, filmes):
-    # Empresta o filme uma vez
-    usuario.pegar_emprestado(filmes[0])
-    # Tentar emprestar novamente deve gerar exceção
-    with pytest.raises(FilmeEmprestarIndisponivelError):
-        filmes[0].emprestar()
-
-def test_limite_emprestimos(usuario, filmes):
-    # Empresta 3 filmes
-    usuario.pegar_emprestado(filmes[0])
-    usuario.pegar_emprestado(filmes[1])
-    usuario.pegar_emprestado(filmes[2])
-    # Tentativa de pegar 4º filme gera exceção
-    novo_filme = Filme("Star Wars", "Sci-Fi", "George Lucas", 4, 1977, 121, 2)
+    # Tentar pegar o 4º filme deve gerar exceção
     with pytest.raises(LimiteEmprestimosExcedidoError):
-        usuario.pegar_emprestado(novo_filme)
+        filme_extra = Filme("Filme 4", "Ação", "Diretor 4", 5, 2020, 120, 1)
+        usuario.pegar_emprestado(filme_extra)
 
-def test_devolver_filme_dentro_prazo(usuario, filmes):
-    usuario.pegar_emprestado(filmes[0])
-    multa = usuario.devolver_filme(filmes[0])
-    assert multa == "Filme devolvido dentro do prazo"
-    assert filmes[0].disponivel
-    assert filmes[0] not in usuario.filmes_emprestados
+def test_filme_indisponivel():
+    """
+    Testa que não é possível emprestar um filme que já está emprestado.
+    """
+    usuario1 = Usuario("Alice", 3)
+    usuario2 = Usuario("Bob", 4)
+    filme = Filme("Matrix", "Sci-Fi", "Wachowski", 6, 1999, 136, 1)
 
-def test_calcular_multa(usuario):
-    # Criar filme e simular atraso
-    filme = Filme("Titanic", "Romance", "James Cameron", 5, 1997, 195, 2)
+    usuario1.pegar_emprestado(filme)
+
+    # Segundo usuário tenta pegar e deve gerar exceção
+    with pytest.raises(FilmeEmprestarIndisponivelError):
+        usuario2.pegar_emprestado(filme)
+
+def test_devolver_filme_nao_emprestado():
+    """
+    Testa que não é possível devolver um filme que não foi emprestado.
+    """
+    usuario = Usuario("Carlos", 5)
+    filme = Filme("O Senhor dos Anéis", "Fantasia", "Peter Jackson", 7, 2001, 178, 1)
+
+    # Devolver filme não emprestado gera exceção
+    with pytest.raises(Exception):
+        usuario.devolver_filme(filme)
+
+# ==============================
+# TESTE PROPOSITAL QUE FALHA
+# ==============================
+def test_erro_proposital():
+    """
+    Teste proposital que tenta pegar mais de 3 filmes.
+    Deve gerar erro de limite de empréstimos.
+    """
+    usuario = Usuario("Teste", 99)
+    filme1 = Filme("Filme 1", "Ação", "Diretor 1", 8, 2020, 120, 1)
+    filme2 = Filme("Filme 2", "Ação", "Diretor 2", 9, 2020, 120, 1)
+    filme3 = Filme("Filme 3", "Ação", "Diretor 3", 10, 2020, 120, 1)
+    filme4 = Filme("Filme 4", "Ação", "Diretor 4", 11, 2020, 120, 1)
+
+    # Emprestando 3 filmes
+    usuario.pegar_emprestado(filme1)
+    usuario.pegar_emprestado(filme2)
+    usuario.pegar_emprestado(filme3)
+
+    # Tentativa de pegar quarto filme (falha proposital)
+    usuario.pegar_emprestado(filme4)
+
+# ==============================
+# TESTE DE MULTA POR ATRASO
+# ==============================
+def test_filme_em_atraso():
+    """
+    Testa a devolução de um filme após o prazo, gerando multa.
+    """
+    usuario = Usuario("Pedro", 6)
+    filme = Filme("Interestelar", "Sci-Fi", "Christopher Nolan", 12, 2014, 169, 1)
+
+    # Empresta o filme
     usuario.pegar_emprestado(filme)
-    # Simula que foi emprestado há 20 dias
+
+    # Simula atraso: ajusta a data de empréstimo para 20 dias atrás
+    # Prazo de empréstimo = 15 dias
+    # Dias de atraso = 20 - 15 = 5 dias
+    # Multa = R$ 1,00 por dia -> multa total = R$ 5,00
     filme.data_emprestimo -= timedelta(days=20)
-    multa = usuario.devolver_filme(filme)
-    assert "multa" in multa  # Deve gerar multa
+
+    # Devolver filme e calcular multa
+    resultado = usuario.devolver_filme(filme)
+    assert "multa" in resultado  # Deve ter multa
+    print(resultado)  # Deve mostrar: "Filme devolvido com multa de R$ 5.00"
