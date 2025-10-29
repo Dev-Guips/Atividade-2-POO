@@ -1,6 +1,4 @@
-Perfeito 😎 Aqui está o **README.md** atualizado, agora com os e-mails de ambos os autores:
 
-```markdown
 # Sistema de Locadora em Python
 
 Este projeto implementa um **sistema de gerenciamento de locadora** usando Python e POO (Programação Orientada a Objetos).  
@@ -8,27 +6,7 @@ O sistema permite gerenciar filmes, usuários, empréstimos, devoluções e mult
 
 > Este projeto foi desenvolvido com base no algoritmo fornecido pelo professor **Edson de Oliveira Vieira**, da disciplina **Linguagem Orientada a Objetos** do **4º semestre de Ciência da Computação** da Faculdade Impacta.  
 > 📧 Contato: **edson.vieira@faculdadeimpacta.com.br**
-
 ---
-
-## Estrutura do Projeto
-
-```
-
-.
-├── src/
-│   ├── locadora.py      # Classes: Filme, Usuario, Locadora
-│   └── **init**.py      # Inicializador do pacote
-├── tests/
-│   └── test_locadora.py # Testes automatizados usando pytest
-├── main.py              # Exemplo de uso interativo do sistema
-├── requirements.txt     # Dependências do projeto
-└── .gitignore           # Ignora venv, pycache e arquivos desnecessários
-
-````
-
----
-
 ## Pré-requisitos
 
 - Python 3.10+ instalado
